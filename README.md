@@ -48,7 +48,7 @@ The client requires two deliverables:
       <li>for each representation, the optimal classifier and its type, i.e. parametric (nmc, ldc, qdc, fisherc, loglc), non-parametric (knnc, parzenc) or advanced (neural networks, support vector classifiers, one-class classifiers, combining classifiers);</li>
       <li>the estimated performance of the optimal classifier on novel data.</li>
     </ul>
-<li>2. a test of your system on a set of benchmark data withheld from you by the client (see below). For Scenario 1, your system should have lower than 5% test error; for Scenario 2, your target is 25% test error.</li>
+<li>a test of your system on a set of benchmark data withheld from you by the client (see below). For Scenario 1, your system should have lower than 5% test error; for Scenario 2, your target is 25% test error.</li>
 </ul>
 
 Note that each choice is expected to be backed up by either evidence or solid reasoning.
@@ -70,7 +70,7 @@ you may not use the test error to optimise your system in any way.
 The procedure agreed upon is as follows:
 
 <ul>
-  <li>write a function a = my rep(m) in which m is a NIST measurement set and a the resulting dataset;</li>
+  <li>write a function a = my_rep(m) in which m is a NIST measurement set and a the resulting dataset;</li>
   <li>compute your classifier as PRTools classifier w in which dimension reduction and classification are incorporated, so a*w*labeld should generate the proper labels;</li>
   <li>call e = nist eval(filename,w,n) in which filename is the filename for the my_rep routine, w is your classifier and n is the desired number of digits per class to be tested. The maximum value of n is 100. Evaluation may take a long time. The fraction of classification errors is returned in e. <b>Note: the function nist eval uses a large test set and is therefore only available on the lab computers, not in the software distributed through Blackboard!</b> </li>
 </ul>
