@@ -121,11 +121,28 @@ results, e.g. in the form of a short presentation (3-5 slides).
 
 ==================
 
-<h1> Papers and other information sources </h1>
+<h2> Papers and other information sources </h2>
+<h3>Algemene papers:</h3>
 <ul>
     <li>http://dml.cz/bitstream/handle/10338.dmlcz/135219/Kybernetika_34-1998-4_5.pdf</li>
     <li>http://www.slideshare.net/anitamaharjan/handwritten-digit-recognition-using-image-processing</li>
     <li>http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.149.2343</li>
     <li>http://www.ijcaonline.org/volume27/number4/pxc3874475.pdf</li>
+    <li>https://github.com/JimmyLin192/DigitRecognizer/blob/master/papers/Handwritten%20digit%20recognition%20benchmarking%20of%20state-of-the-art%20techniques.pdf</li>  <-- View Raw
     <li></li>
 </ul>
+
+<h3>Feature Selection/Extraction papers:</h3>
+<ul>
+    <li>http://www.creacteve.com.br/iwssip/nav/papers/paper_69.pdf</li>
+    <li>http://www.sciencedirect.com/science/article/pii/S0031320303002243</li>
+</ul>
+
+==================
+
+<h2>Notes:</h2>
+<ul>
+    <li>Gradient feature from gray-scale images yields best performance. Improved NCFE also good performance.</li>
+    <li>Combined effects of normalization, feature extraction and classification have yielded very high accuracies on well-known datasets.</li>
+    <li>Good classifiers according to the papers seem to be the median rule for KNN-classifier, neural networks or SVC</li>
+    <li></li>
