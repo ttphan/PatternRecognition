@@ -118,3 +118,14 @@ During the practical session of Week 13, it will be possible to discuss your pre
 with the supervisors and get some feedback on the areas that need improvement. If you wish
 to make use of this possibility, please prepare a very brief overview of your most important
 results, e.g. in the form of a short presentation (3-5 slides).
+
+==================
+
+<h1> Papers and other information sources </h1>
+<ul>
+    <li>http://dml.cz/bitstream/handle/10338.dmlcz/135219/Kybernetika_34-1998-4_5.pdf</li>
+    <li>http://www.slideshare.net/anitamaharjan/handwritten-digit-recognition-using-image-processing</li>
+    <li>http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.149.2343</li>
+    <li>http://www.ijcaonline.org/volume27/number4/pxc3874475.pdf</li>
+    <li></li>
+</ul>
