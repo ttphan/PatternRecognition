@@ -129,7 +129,7 @@ results, e.g. in the form of a short presentation (3-5 slides).
     <li>http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.149.2343</li>
     <li>http://www.ijcaonline.org/volume27/number4/pxc3874475.pdf</li>
     <li>https://github.com/JimmyLin192/DigitRecognizer/blob/master/papers/Handwritten%20digit%20recognition%20benchmarking%20of%20state-of-the-art%20techniques.pdf</li>  <-- View Raw
-    <li></li>
+    <li>http://jeremykun.com/2012/08/26/k-nearest-neighbors-and-handwritten-digit-classification/</li>
 </ul>
 
 <h3>Feature Selection/Extraction papers:</h3>
