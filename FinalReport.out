@@ -1,0 +1,17 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}% 1
+\BOOKMARK [1][-]{section.2}{Preprocessing}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Boxing and resizing}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Binary image operations}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Shearing for normalizing diagonally orientated digits}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{Feature Extraction}{}% 6
+\BOOKMARK [1][-]{section.4}{Classifiers}{}% 7
+\BOOKMARK [2][-]{subsection.4.1}{Scenario 1}{section.4}% 8
+\BOOKMARK [2][-]{subsection.4.2}{Scenario 2}{section.4}% 9
+\BOOKMARK [1][-]{section.5}{Benchmarking}{}% 10
+\BOOKMARK [2][-]{subsection.5.1}{Classifier Scenario 1}{section.5}% 11
+\BOOKMARK [2][-]{subsection.5.2}{Classifier Scenario 2}{section.5}% 12
+\BOOKMARK [1][-]{section.6}{Live Test}{}% 13
+\BOOKMARK [2][-]{subsection.6.1}{Segmentation}{section.6}% 14
+\BOOKMARK [2][-]{subsection.6.2}{Preprocessing and Classification}{section.6}% 15
+\BOOKMARK [1][-]{section.7}{Recommendations}{}% 16
+\BOOKMARK [1][-]{section.8}{Conclusion}{}% 17
