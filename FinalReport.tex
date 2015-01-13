@@ -26,6 +26,20 @@
     Kevin van Nes, kjmvannes, 4020871
 }
 
+%A report detailing the design choices you made for both scenarios, including detailed motivation. This report should discuss the following:
+%-the choice of representation (by pixels, features or dissimilarities);
+%-the actual features or dissimilarity measure used;
+%-for each representation, whether feature reduction is possible and, if so, what number of features should be used;
+%-for each representation, the optimal classifier and its type, i.e. parametric (nmc, ldc, qdc, fisherc, loglc), non-parametric (knnc, parzenc) or advanced (neural networks, support vector classifiers, one-class classifiers, combining classifiers);
+%-the estimated performance of the optimal classifier on novel data.
+%-a test of your system on a set of benchmark data withheld from you by the client (see below). For Scenario 1, your system should have lower than 5\% test error; for Scenario 2, your target is 25\% test error
+
+%Note that each choice is expected to be backed up by either evidence or solid reasoning. In the last exercise(s) for each week you have already experimented somewhat with the hand- written digit dataset. However, it is important to question each step as you construct your final digit recognition system, for two reasons:
+
+%Furthermore:
+%-Live test
+%-Recommendations
+
 \begin{document}
 
 \maketitle
@@ -39,26 +53,65 @@ This report contains the details about the different phases in constructing the 
 The first phase we went through during this project was the phase in which we preprocessed the data. This was a necessary step, because the data (i.e. the handwritten digits) differed tremendously amongst each other, even within the same class. An example of this would be that a `4' can be written in different ways or that digits would be sheared in various directions. To solve these inequalities, a few steps were taken to normalize the data, as to try to make the data as similar as possible, both inter-class and intra-class.
 
 \subsection{Boxing and resizing}
-The first step that was taken to preprocess the data was to normalize all the data objects in terms of their size. In order to do this, the PRTools functions `im\_box' and `im\_resize' were used. We decided to resize the images to 32x32 pixels, which later turned out to give better results than images of 64x64 pixels and images of 16x16 pixels. This is probably related to the fact that we use pixels as our features, so that smaller/larger images would have too few or too many features, respectively.
+The first step that was taken to preprocess the data was to normalize all the data objects in terms of their size. In order to do this, the PRTools functions `im\_box' and `im\_resize' were used. We decided to resize the images to 32x32 pixels (total: 1024 pixels), which later turned out to give better results than images of 64x64 pixels and images of 16x16 pixels. This is probably related to the fact that we use the data images' pixels as our features, so that smaller/larger images would have too few or too many features, respectively.
 
-\subsection{Binary image operations} %(closing for filling holes, erosion + dilation for noise removal)\\
+\subsection{Morphology operations} %(closing for filling holes, erosion + dilation for noise removal)\\
+After having normalized the size of the digits, we looked at the images and saw that some of them contained noise. There were also digits that looked incomplete, by which we mean that these digits contained holes that were not supposed to be there. These holes can be seen as another form of noise. We investigated how to solve both of these problems and it turned out that morphology operations were the key to these problems, particularly the closing and opening operators. %(2 REFERENCES HERE). 
+%About opening: http://scholar.google.nl/scholar?hl=en&q=Noise+removal+and+enhancement+of+binary+images+using+morphological+operations&btnG=&as_sdt=1%2C5&as_sdtp=
+%Jamil, N., & Mohd Tengku Sembok, T., & Abu Bakar, Z. (2008). Noise removal and enhancement of binary images using morphological operations. 
 
 
-\subsection{Shearing for normalizing diagonally orientated digits}
+%About closing: http://www.academia.edu/7333165/Noise_Removal_with_Morphological_Operations_Opening_and_Closing_Using_Erosion_and_Dilation
+%Bishnoi, A. (2014). Noise Removal with Morphological Operations Opening and Closing Using Erosion and Dilation. International Journal of Modern Engineering Research (IJMER). Vol: 4
 
+Firstly, we attempted to fill up the small holes in the images using a closing operator combined with a disk-shaped structuring element of size 1. A closing operator is an operator which first performs a dilation and then an erosion operation. The disk shape (which looks like an addition operator) was chosen to deal with the pixel-like structure of the digits.\\
+After the closing operator had run over an image, noise pixels that were not part of the digits themselves were removed by using an opening operator. An opening operator is an operator which first performs an erosion and then a dilation operation, which makes it the opposite of a closing operation. Again, a disk-shaped structuring element of size 1 was used to perform the opening operator.
+
+\subsection{Shearing for normalization of diagonally orientated digits}
+The last major step of preprocessing that was taken was the shearing of all diagonally orientated characters. Because of the differences in the handwritings of people that contributed to the MNIST database, some digits of the same kind might look very different from each other, just because they are orientated differently (i.e. skewed). The solution that we implemented in our system consists of two steps: firstly, we use the central moments of the image to determine the orientation angle of the image (REFERENCE STATISTICAL MOMENTS). Secondly we used the orientation angle to skew the digits in the right direction using a simple transformation matrix (REFERENCE PAPER ABOUT SKEW CORRECTION). The orientation angle was determined in the following way:\\
+Firstly, we determined the moments of the image (i.e. the digits). This can be done using the following formula:\newline
+\newline
+$M_{ij} = \sum_{x}^{} \sum_{y}^{} x^{i}y^{j}I(x,y)$,
+\newline\newline
+where $I(x,y)$ is the intensity of a pixel (in our case: 0 or 1) at position (x,y).\\
+With this formula, the second-order central moments $\mu_{11}$, $\mu_{20}$ and $\mu_{02}$ were determined by using the following formula:
+\newline\newline
+$\mu_{pq} = \sum_{x}^{} \sum_{y}^{}(x-\bar{x})(y-\bar{y})f(x,y)$,
+\newline\newline
+where $f(x,y)$ is pixel intensity of the image at position (x,y) and where $\bar{x} = \frac{M_{10}}{M_{00}}$ and $\bar{y} = \frac{M_{01}}{M_{00}}$.\newline\newline
+Finally, using the three central moments that were calculated from the previous formula, we were able to find the orientation angle of each digit, which were determined by:
+\newline\newline
+$\Theta = \frac{1}{2} arctan(\frac{2\mu_{11}^{'}}{\mu_{20}^{'} - \mu_{02}^{'}})$,
+\newline\newline
+where $\mu_{11}^{'} = \frac{\mu{11}}{\mu{00}}$, $\mu_{20}^{'} = \frac{\mu{20}}{\mu{00}}$ and $\mu_{02}^{'} = \frac{\mu{02}}{\mu{00}}$.
+\newline\newline
+After having obtained the orientation angles of the images, we were able to skew them to a vertical orientation by using a simple shearing transformation matrix, which we made as follows:
+\newline\newline
+$\begin{bmatrix}
+       1                       & 0           & 0           \\[0.3em]
+       sin(0.5\pi - 2\Theta)   & 1           & 0		   \\[0.3em]
+       0                       & 0           & 1
+\end{bmatrix}$
+\newline\newline\newline
+The sinus function in this matrix is used because $sin(0.5\pi)$ represents the y-axis, from which $\Theta$ is subtracted to skew the image in the correct angle.
+\newline\newline
+The combination of the morphological operations and the shearing of the digits resulted in a much better representation of the majority of the digits.\\
+%Paper about skew correction: http://pdf.aminer.org/000/295/746/digit_classification_on_signboards_for_telephone_number_recognition.pdf
+%Yamaguchi, T., & Nakano, Y., & Maruyama, M., & Miyao, H., & Hananoi, T. (2003). \emph{Digit Classification on Signboards for Telephone Number Recognition}. 
+%Central moments reference:  Gonzalez, R., & Woods, R. (2002). \emph{Digital Image Processing}. Prentice Hall, Inc. 
 
 
 \section{Feature Extraction}
-
-Hier PCA
-\\No clue
+After the images had all been preprocessed, we wanted to reduce the amount of features in each image (i.e. the pixels). It was found that Principal Component Analysis (PCA) could be used to reduce the amount of features, while keeping as much of the important data as possible. By doing PCA on our images, the most `important' pixels would be retained, while less important pixels would be dismissed.\newline\newline
+To hold on to as much of the important data as possible, we did PCA on our data's features with a parameter of 0.99, meaning that 99\% of the total variance of the features would be preserved. As noted earlier, our preprocessed images consist of 1024 pixels each. Our PCA managed to reduce this amount to 625, which means that 399 pixels made up for only 1\% of the total variance of the pixels.
 
 
 \section{Classifiers}
-Hier korte sectie intro
-
+Now that all of the digit images have been preprocessed and features have been extracted using PCA, the next step was to train the classifiers of our system. Classifiers had to be created for two different scenarios. In the first scenario, Scenario 1, the system is trained once with a large amount of training data, whereas in the second scenario, Scenario 2, the system is trained for each batch of digits, meaning the amount of training data is extremely small.\newline\newline
+In the subsections below, the classifiers that we trained for both scenarios will be discussed. Furthermore, the results of what we deemed to be the best classifier for each scenario will be given, based on the classification errors that we produced for each classifier.
 \subsection{Scenario 1}
-Scenario 1 classifiers en percentage dat uit eigen tests kwam. (gemiddelde van 5/10 tests?)
+Scenario 1 is the scenario in which the system is trained with a large amount of training data (at least 200 and at most 1000 objects per class). For such a scenario, it is best to use a classifier that performs well when there is low bias and high variance. Classifiers that we found to be fit for this task were: KNN classfiers and SVM classifiers.
+%Scenario 1 classifiers en percentage dat uit eigen tests kwam. (gemiddelde van 5/10 tests?)
 \subsection{Scenario 2}
 Scenario 2 classifiers en percentage dat uit eigen tests kwam. (gemiddelde van 5/10 tests?)
 
@@ -76,19 +129,25 @@ Benchmark resultaten + vergelijking eigen tests (evt. conclusies trekken uit ver
 
 
 \section{Live Test}
-Korte intro
+After the system was tested against benchmark data, we decided to try and test the system against `live data', which consisted of actual handwritten digits. For each of the digits 0, 1, ..., 9 we wrote six digits each on a piece of paper. This piece of paper was then scanned into a computer. After having scanned in the paper, we were able to segment and preprocess the digits to make them ready for classification.
 
-\subsection{Segmentation}
-Hoe hebben we gesegmenteerd?
+\subsection{Segmentation and Preprocessing}
+%RGB2Gray->SegmentTool(sobel filter, 0.033, both directions)
+Firstly, the 60 handwritten digits were turned into a binary image, after which they were imported into a third-party MATLAB-app, called SegmentTool (REFERENCE HERE). This tool is able to perform segmentation using different kinds of filters and parameters. To segment our digits, we used a Sobel-filter. This was chosen after experimenting manually to retrieve the segmented image that looked best.\newline
+\newline
+The segmentation resulted in different kinds of noise across the total image containing all digits. These kinds of noise were the same as the kinds of noise that appeared in the original MNIST digits. To make sure all images would be cut out correctly in the next step and that no noise would be cut out as if it were a digit, a closing and opening operation were performed on the total image to reduce the noise to a minimum. Next, we cut each digit into its own image by using the MATLAB function \emph{regionprops}. This resulted in each digit being cut out correctly.
 
-\subsection{Preprocessing and Classification}
+%Reference for SegmentTool: ??? geen idee hoe app te referencen volgens APA...
+
+\subsection{Classification}
+%Preprocessing niet hetzelfde, preprocessing meteen na segmenting i.p.v. later.
 Vertellen dat preprocessing en classification op dezelfde manier gebeurd is.
 Zowel Classifier 1 als 2 als trainer gebruiken, resultaten vergelijken met andere classification tests.
 
 \section{Recommendations}
-Recommendations voor bonussssspunt
+%Recommendations voor bonussssspunt
 
 \section{Conclusion}
-Korte conclusie
+%Korte conclusie
 
 \end{document}
