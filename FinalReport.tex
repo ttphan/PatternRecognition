@@ -93,8 +93,10 @@ $\begin{bmatrix}
        0                       & 0           & 1
 \end{bmatrix}$
 \newline\newline\newline
-The sinus function in this matrix is used because $sin(0.5\pi)$ represents the y-axis, from which $\Theta$ is subtracted to skew the image in the correct angle.
-\newline\newline
+The sinus function in this matrix is used because $sin(0.5\pi)$ represents the y-axis, from which $\Theta$ is subtracted to skew the image in the correct angle. The skewed images are anti-aliased by Matlab, so we turn the digits back into binary images using a threshold function. An example of the result of the preprocessing can be seen in Figure \ref{preprocced}. (FIG LINK)
+
+\includegraphics{preprocced.png}
+
 The combination of the morphological operations and the shearing of the digits resulted in a much better representation of the majority of the digits.\\
 %Paper about skew correction: http://pdf.aminer.org/000/295/746/digit_classification_on_signboards_for_telephone_number_recognition.pdf
 %Yamaguchi, T., & Nakano, Y., & Maruyama, M., & Miyao, H., & Hananoi, T. (2003). \emph{Digit Classification on Signboards for Telephone Number Recognition}. 
@@ -132,7 +134,8 @@ Benchmark resultaten + vergelijking eigen tests (evt. conclusies trekken uit ver
 
 
 \section{Live Test}
-After the system was tested against benchmark data, we decided to try and test the system against `live data', which consisted of actual handwritten digits. For each of the digits 0, 1, ..., 9 we wrote six digits each on a piece of paper. This piece of paper was then scanned into a computer. After having scanned in the paper, we were able to segment and preprocess the digits to make them ready for classification.
+After the system was tested against benchmark data, we decided to try and test the system against `live data', which consisted of actual handwritten digits. For each of the digits 0, 1, ..., 9 we wrote six digits each on a piece of paper (see Figure x. (FIGURE LINK)). This piece of paper was then scanned into a computer. After having scanned in the paper, we were able to segment and preprocess the digits to make them ready for classification.
+%FIGURE HERE %
 
 \subsection{Segmentation and Preprocessing}
 %RGB2Gray->SegmentTool(sobel filter, 0.033, both directions)
@@ -141,23 +144,32 @@ Firstly, the 60 handwritten digits were turned into a binary image, after which 
 The segmentation resulted in different kinds of noise across the total image containing all digits. These kinds of noise were the same as the kinds of noise that appeared in the original MNIST digits. To make sure all images would be cut out correctly in the next step and that no noise would be cut out as if it were a digit, a closing and opening operation were performed on the total image to reduce the noise to a minimum. Next, we cut each digit into its own image by using the MATLAB function \emph{regionprops}. This resulted in each digit being cut out correctly, making them ready for more preprocessing. Since the noise reduction operations have already been applied to the digits, the only preprocessing steps that still had to be taken were the size and orientation normalizations.
 
 %Reference for SegmentTool:
-%Shoelson, B. (2013). SegmentTool: An Interactive GUI for Segmenting Images (Version 2.1) [Software]. Available from http://www.mathworks.com/matlabcentral/fileexchange/38484-segmenttool--an-interactive-gui-for-segmenting-images
+%Shoelson, B. (2013). SegmentTool: An Interactive GUI for Segmenting Images [Software]. Available from http://www.mathworks.com/matlabcentral/fileexchange/38484-segmenttool--an-interactive-gui-for-segmenting-images
 
 \subsection{Classification and Results}
 %Preprocessing niet hetzelfde, preprocessing meteen na segmenting i.p.v. later.
 At this point most of the newly handwritten digits look very similar to the digits contained in the database. This means that it was time to use the digits as test data for our classification system. We classified the live test digits using our best classifier for Scenario 1 as well as our best classifier for Scenario 2. 
 \newline
 \newline
-The classifier for Scenario 1 classified our digits with an error rate of 25\%. From our results it could be seen that the classifier had a hard time classifying our '3', '7' and '9' digits. On the other hand, our classifier correctly classified all '1' and '5' digits.\newline
+The classifier for Scenario 1 classified our digits with an error rate of 25\%. To reach this rate, we used ???. From our results it could be seen that the classifier had a hard time classifying our '3', '7' and '9' digits. On the other hand, our classifier correctly classified all '1' and '5' digits.\newline
 \newline
-The classifier for Scenario 2 classified our digits with an error rate of \%. In this case,
+The classifier for Scenario 2 classified our digits with an error rate of 50\% using the libsvc classifier with radial basis kernel (parameter = 10). We were not satisfied with this result, so we tried running a few other classifiers against our live data to find out that the rbsvc classifier worked slightly better with 43\% error rate. In this case,  \newline
+\newline
+As can be seen from the results, there is a significant gap between the classification errors of the live tests and that of the benchmark tests. We think that there are several possible reasons for this to have happened.\\
+The first possibility is that our preprocessing is not done correctly or exactly in the same way as it is done for the data in the NIST database. It seems that the digits of the NIST database after our preprocessing are much thicker than those of our live data (see Figure (FIGURE LINK)). Even though both the NIST data and our live data are preprocessed in the same way. This might be the result of the fact that the digits in the NIST database have been written with a different pen or that they have already been preprocessed slightly by NIST itself.\newline
+We also tried relating the form of the digits that were very badly classified during the live test ('3', '7' and '9') to the ones in the database. This showed us that our '7' and '9' digits sometimes deviate a lot from the digits in the database, as can be seen in Figure x (FIGURE LINK HERE).\newline\newline
+%FIGURE HERE %
+\newline\newline
 
-%Zowel Classifier 1 als 2 als trainer gebruiken, resultaten vergelijken met andere classification tests.
+The last possibility that we could think of as the cause of the disparity between the classification errors is that some of our digits may have been written badly. On the other hand, some of the digits in the NIST database are also incomplete or badly recognizable, so bad writing may not be the reason for higher misclassification at all.
+
+Overall we were satisfied with the results of the live test, as most of the digits (at least in Scenario 1) were recognized correctly and we expect that making some improvements to the preprocessing (and maybe the segmenting) of the self-written digits would improve the classification as well.
 
 \section{Recommendations}
 %Recommendations voor bonussssspunt
+No handwritten digit recognition system is perfect (although some are getting pretty close (REF? LeCun NIST site)). This is why in this section some recommendations will be given to suggest possible improvements that could be made to the system in the future.
 
 \section{Conclusion}
-%Korte conclusie
+%Korte conclusie (Nodig?)
 
 \end{document}
