@@ -110,8 +110,11 @@ To hold on to as much of the important data as possible, we did PCA on our data'
 Now that all of the digit images have been preprocessed and features have been extracted using PCA, the next step was to train the classifiers of our system. Classifiers had to be created for two different scenarios. In the first scenario, Scenario 1, the system is trained once with a large amount of training data, whereas in the second scenario, Scenario 2, the system is trained for each batch of digits, meaning the amount of training data is extremely small.\newline\newline
 In the subsections below, the classifiers that we trained for both scenarios will be discussed. Furthermore, the results of what we deemed to be the best classifier for each scenario will be given, based on the classification errors that we produced for each classifier.
 \subsection{Scenario 1}
-Scenario 1 is the scenario in which the system is trained with a large amount of training data (at least 200 and at most 1000 objects per class). For such a scenario, it is best to use a classifier that performs well when there is low bias and high variance. Classifiers that we found to be fit for this task were: KNN classfiers and SVM classifiers.
+Scenario 1 is the scenario in which the system is trained with a large amount of training data (at least 200 and at most 1000 objects per class). For such a scenario, it is best to use a classifier that performs well when there is low bias and high variance. Classifiers that we found to be fit for this task were: KNN classfiers and SVM classifiers. (REFERENCE HIER)
 %Scenario 1 classifiers en percentage dat uit eigen tests kwam. (gemiddelde van 5/10 tests?)
+%Reference voor KNN en SVC: Liu, C., & Nakashima, K., & Sako, H., & Fujisawa, H. (2003). \emph{Handwritten digit recognition: benchmarking of state-of-the-art techniques}. Pattern Recognition 36, 2271-2285.
+%
+
 \subsection{Scenario 2}
 Scenario 2 classifiers en percentage dat uit eigen tests kwam. (gemiddelde van 5/10 tests?)
 
@@ -135,14 +138,21 @@ After the system was tested against benchmark data, we decided to try and test t
 %RGB2Gray->SegmentTool(sobel filter, 0.033, both directions)
 Firstly, the 60 handwritten digits were turned into a binary image, after which they were imported into a third-party MATLAB-app, called SegmentTool (REFERENCE HERE). This tool is able to perform segmentation using different kinds of filters and parameters. To segment our digits, we used a Sobel-filter. This was chosen after experimenting manually to retrieve the segmented image that looked best.\newline
 \newline
-The segmentation resulted in different kinds of noise across the total image containing all digits. These kinds of noise were the same as the kinds of noise that appeared in the original MNIST digits. To make sure all images would be cut out correctly in the next step and that no noise would be cut out as if it were a digit, a closing and opening operation were performed on the total image to reduce the noise to a minimum. Next, we cut each digit into its own image by using the MATLAB function \emph{regionprops}. This resulted in each digit being cut out correctly.
+The segmentation resulted in different kinds of noise across the total image containing all digits. These kinds of noise were the same as the kinds of noise that appeared in the original MNIST digits. To make sure all images would be cut out correctly in the next step and that no noise would be cut out as if it were a digit, a closing and opening operation were performed on the total image to reduce the noise to a minimum. Next, we cut each digit into its own image by using the MATLAB function \emph{regionprops}. This resulted in each digit being cut out correctly, making them ready for more preprocessing. Since the noise reduction operations have already been applied to the digits, the only preprocessing steps that still had to be taken were the size and orientation normalizations.
 
-%Reference for SegmentTool: ??? geen idee hoe app te referencen volgens APA...
+%Reference for SegmentTool:
+%Shoelson, B. (2013). SegmentTool: An Interactive GUI for Segmenting Images (Version 2.1) [Software]. Available from http://www.mathworks.com/matlabcentral/fileexchange/38484-segmenttool--an-interactive-gui-for-segmenting-images
 
-\subsection{Classification}
+\subsection{Classification and Results}
 %Preprocessing niet hetzelfde, preprocessing meteen na segmenting i.p.v. later.
-Vertellen dat preprocessing en classification op dezelfde manier gebeurd is.
-Zowel Classifier 1 als 2 als trainer gebruiken, resultaten vergelijken met andere classification tests.
+At this point most of the newly handwritten digits look very similar to the digits contained in the database. This means that it was time to use the digits as test data for our classification system. We classified the live test digits using our best classifier for Scenario 1 as well as our best classifier for Scenario 2. 
+\newline
+\newline
+The classifier for Scenario 1 classified our digits with an error rate of 25\%. From our results it could be seen that the classifier had a hard time classifying our '3', '7' and '9' digits. On the other hand, our classifier correctly classified all '1' and '5' digits.\newline
+\newline
+The classifier for Scenario 2 classified our digits with an error rate of \%. In this case,
+
+%Zowel Classifier 1 als 2 als trainer gebruiken, resultaten vergelijken met andere classification tests.
 
 \section{Recommendations}
 %Recommendations voor bonussssspunt
