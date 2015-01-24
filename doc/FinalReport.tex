@@ -4,10 +4,12 @@
 \usepackage{amsthm}
 \usepackage{amssymb}
 \usepackage{caption}
-\usepackage{cite}
 
 \usepackage[pdfstartview=FitH,pdfpagemode=UseNone]{hyperref}
 \usepackage[letterspace=40]{microtype}
+
+\usepackage{apacite}
+\bibliographystyle{apacite}
 
 \usepackage{a4wide,times}
 \usepackage{graphicx}
@@ -59,7 +61,7 @@ The first phase we went through during this project was the phase in which we pr
 The first step that was taken to preprocess the data was to normalize all the data objects in terms of their size. In order to do this, the PRTools functions `im\_box' and `im\_resize' were used. We decided to resize the images to 32x32 pixels (total: 1024 pixels), which later turned out to give better results than images of 64x64 pixels and images of 16x16 pixels. This is probably related to the fact that we use the data images' pixels as our features, so that smaller/larger images would have too few or too many features, respectively.
 
 \subsection{Morphology operations} %(closing for filling holes, erosion + dilation for noise removal)\\
-After having normalized the size of the digits, we looked at the images and saw that some of them contained noise. There were also digits that looked incomplete, by which we mean that these digits contained holes that were not supposed to be there. These holes can be seen as another form of noise. We investigated how to solve both of these problems and it turned out that morphology operations were the key to these problems, particularly the closing and opening operators \cite{bishnoi2014} \cite{jamil2008noise}.
+After having normalized the size of the digits, we looked at the images and saw that some of them contained noise. There were also digits that looked incomplete, by which we mean that these digits contained holes that were not supposed to be there. These holes can be seen as another form of noise. We investigated how to solve both of these problems and it turned out that morphology operations were the key to these problems, particularly the closing and opening operators \cite{bishnoi2014, jamil2008noise}.
 
 Firstly, we attempted to fill up the small holes in the images using a closing operator combined with a disk-shaped structuring element of size 1. A closing operator is an operator which first performs a dilation and then an erosion operation. The disk shape (which looks like an addition operator) was chosen to deal with the pixel-like structure of the digits.
 
@@ -229,7 +231,6 @@ We recommend either more training data for scenario 2, in order to make cross-va
 
 \newpage
 
-\bibliographystyle{ieeetr}
 \bibliography{refs}
 
 \end{document}
