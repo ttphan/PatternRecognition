@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+
+\bibitem{bishnoi2014}
+A.~Bishnoi, ``{Noise Removal with Morphological Operations Opening and Closing
+  Using Erosion and Dilation. International Journal of Modern Engineering
+  Research (IJMER)},'' vol.~4, 2014.
+
+\bibitem{jamil2008noise}
+N.~Jamil, T.~M.~T. Sembok, and Z.~A. Bakar, ``{Noise removal and enhancement of
+  binary images using morphological operations},'' in {\em Information
+  Technology, 2008. ITSim 2008. International Symposium on}, vol.~4, pp.~1--6,
+  IEEE, 2008.
+
+\bibitem{gonzalez2002digital}
+R.~C. Gonzalez and R.~E. Woods, ``Digital image processing,'' 2002.
+
+\bibitem{yamaguchi2003digit}
+T.~Yamaguchi, Y.~Nakano, M.~Maruyama, H.~Miyao, and T.~Hananoi, ``{Digit
+  classification on signboards for telephone number recognition},'' in {\em
+  Document Analysis and Recognition, 2003. Proceedings. Seventh International
+  Conference on}, pp.~359--363, IEEE, 2003.
+
+\bibitem{liu2003handwritten}
+C.~Liu, K.~Nakashima, H.~Sako, and H.~Fujisawa, ``Handwritten digit
+  recognition: benchmarking of state-of-the-art techniques,'' {\em Pattern
+  Recognition}, vol.~36, no.~10, pp.~2271--2285, 2003.
+
+\bibitem{segmenttool}
+B.~Shoelson, {\em {SegmentTool: An Interactive GUI for Segmenting Images
+  [Software]}}.
+\newblock 2013.
+
+\bibitem{mnist}
+Y.~LeCun, C.~Cortes, and C.~J.~C. Burges, ``{MNIST handwritten digit
+  database}.''
+
+\end{thebibliography}
