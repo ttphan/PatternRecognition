@@ -118,11 +118,11 @@ Now that all of the digit images have been preprocessed and features have been e
 
 In the subsections below, the classifiers that we trained for both scenarios will be discussed. Furthermore, the results of what we deemed to be the best classifier for each scenario will be given, based on the classification errors that we calculated for each classifier.
 \subsection{Scenario 1}
-Scenario 1 is the scenario in which the system is trained with a large amount of training data (at least 200 and at most 1000 objects per class). For such a scenario, it is best to use a classifier that performs well when there is low bias and high variance. Classifiers that we found to be fit for this task were: KNN classfiers and SVM classifiers \cite{liu2003handwritten}. We limited the amount of classifiers in order to save time, as training the classifiers with this amount of training data is very time consuming.
+Scenario 1 is the scenario in which the system is trained with a large amount of training data (at least 200 and at most 1000 objects per class). For such a scenario, it is best to use a classifier that performs well when there is low bias and high variance. Classifiers that we found to be fit for this task were: KNN classfiers and SVM classifiers \cite{liu2003handwritten}. We limited the amount of classifiers in order to save time, as training the classifiers with this amount of training data is very time-consuming.
 
-To see which one would be the best fit for our classification, we wrote a function that tested these classifiers simultaneously and it will return the classifier with the lowest error rate. For KNN, we let the K-value be chosen by the implementation, which determined the optimal value with respect to the leave-one-out error. We made use of two different implementations of SVM: rbsvc, which uses a radial basis kernel and cross-validation to determine the best parameters, and libsvc, a more general implementation with the option to specify the kernel to be used. We found out that using a different kernel had an tremendous effect on the performance of the classifier. We tested libsvc utilizing a radial basis kernel, with parameter equal to 7 to 10, and a polynomial type kernel with parameters 2 and 3. We also thought that the Parzen classifier would be a possible candidate, but the parzenc function of PRTools consistently gave back an error rate of 90\% in this scenario, regardless of preprocessing done beforehand. We think it's a bug, so we did not take this result into account.
+To see which one would be the best fit for our classification, we wrote a function that tests these classifiers simultaneously and subsequently returns the classifier with the lowest error rate. For KNN, we let the K-value be chosen by the implementation, which determined the optimal value with respect to the leave-one-out error. We made use of two different implementations of SVM: rbsvc, which uses a radial basis kernel and cross-validation to determine the best parameters, and libsvc, a more general implementation with the option to specify the kernel to be used. We found out that using a different kernel had a tremendous effect on the performance of the classifier. We tested libsvc utilizing a radial basis kernel, with its parameter equal to numbers 7 through 10, and a polynomial type kernel with parameters 2 and 3.
 
-Table \ref{table:scenario1} shows that SVM with a polynomial basis kernel with parameter 2 performs best, but this is misleading, because radial basis kernel with parameter 10 was more stable, consistently having an error rate lower than 5\%.
+Table \ref{table:scenario1} shows that SVM with a polynomial basis kernel with parameter 2 performs best, but this is a bit misleading, because the radial basis kernel with parameter 10 was more stable, consistently having an error rate lower than 5\%.
 
 \begin{table}[h]
 \centering
@@ -143,9 +143,9 @@ Table \ref{table:scenario1} shows that SVM with a polynomial basis kernel with p
 
 
 \subsection{Scenario 2}
-Scenario 2 simulates situations where the classifier is trained before every batch, which means that it has to be fast. As a consequence, the amount of training data is limited with at most 10 objects per class. Using the same setup and preprocessing as with scenario 1, but this time including Parzen, as it performed as expected on small sets of training data. 
+Scenario 2 simulates situations where the classifier is trained before every batch, which means that it has to be fast. As a consequence, the amount of training data is limited with at most 10 objects per class. We used the same setup and preprocessing as for scenario 1, but this time we included testing the Parzen classifier, as it performed well, which was expected for small sets of training data.
 
-We predicted that rbsvc would have the best results thanks to its implemented cross-validation. However, its performance was barely under the 25\% error rate threshold, while radial basis SVM with parameter 10 performed the best. Despite the fact that cross-validation is best suited for small training sets, we think that the set was so small that cross-validation could not sufficiently improve its performance. As can be seen in table \ref{table:scenario2}, radial basis with parameter 7 performs significantly worse and improves by a large margin every time the parameter increases. We thought this trend continued, but curiously, the performance dropped with parameter 11.
+We predicted that rbsvc would have the best results thanks to its implemented cross-validation. However, its performance was barely under the 25\% error rate threshold. It turned out that libsvc (denoted as SVM in Table \ref{table:scenario2}) with a radial basis kernel with parameter 10 performed best. Despite the fact that cross-validation is best suited for small training sets, we think that the set was so small that cross-validation could not sufficiently improve its performance. As can be seen in table \ref{table:scenario2}, radial basis with parameter 7 performs significantly worse and improves by a large margin every time the parameter increases. We thought this trend continued, but curiously, the performance dropped with parameter 11.
 
 \begin{table}[h]
 \centering
@@ -174,7 +174,7 @@ After the system was tested against benchmark data, we decided to try and test t
   \centering
   \captionsetup{justification=centering}
   \includegraphics[width=0.5\textwidth]{livedata.jpeg}
-  \caption{Live data, handwritten and scanned in ourself}
+  \caption{Live data, handwritten and scanned in by ourselves}
   \label{img:livedata}
 \end{figure}
 
@@ -218,9 +218,9 @@ Overall we were satisfied with the results of the live test, as most of the digi
 %Recommendations voor bonussssspunt
 No handwritten digit recognition system is perfect (although some are getting pretty close \cite{mnist}). This is why in this section some recommendations will be given to suggest possible improvements that could be made to the system in the future.
 
-First off, as we have noticed in the live test, the stroke width of the written numbers have to be of sufficient width. The numbers have to be written with either a marker or preprocessed accordingly to make up for the thin lines. As mentioned earlier, ensuring that the images you train the classifier with and the digits to be read is preprocessed in the same way is crucial. It is possible that the digits provided by NIST are already preprocessed partially, which might have an effect on the performance.
+First off, as we have noticed during the live test, the stroke width of the written numbers has to be of sufficient width. The numbers have to be preprocessed accordingly to make up for the thin lines. As mentioned earlier, it is crucial to ensure that the digits to be classified and the digits the classifiers are trained with are preprocessed in the same way.
 
-It is also wise to use multiple classifiers to determine the best classifier to be used depending on the error rate. This way, you avoid getting bad results due to outliers (for example, a handwriting that differs a lot from the standard).
+It is also wise to use multiple classifiers to determine the best classifier to be used depending on the error rate. This way, bad results due to outliers can be avoided (for example, a handwriting that differs a lot from the standard).
 
 We recommend either more training data for scenario 2, in order to make cross-validation feasible, or using the same classifier for every cheque and train it with new numbers every time a cheque is introduced. Doing the latter will ensure that the classifier will receive more training data every time a cheque is presented.
 
